@@ -1,0 +1,12 @@
+{
+  "name": "gabby-font-color-css-inspector",
+  "private": true,
+  "scripts": {
+    "test": "node --test tests/unit/*.test.js",
+    "test:unit": "node --test tests/unit/*.test.js",
+    "test:e2e": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.52.0"
+  }
+}

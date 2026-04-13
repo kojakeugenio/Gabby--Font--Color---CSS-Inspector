@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" fill="none">
+  <defs>
+    <linearGradient id="gabby-gradient" x1="18" y1="102" x2="110" y2="24" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#163553" />
+      <stop offset="0.23" stop-color="#335DC2" />
+      <stop offset="0.47" stop-color="#FF6C71" />
+      <stop offset="0.64" stop-color="#FFB347" />
+      <stop offset="0.82" stop-color="#44D2C1" />
+      <stop offset="1" stop-color="#2D80F7" />
+    </linearGradient>
+    <linearGradient id="gabby-highlight" x1="46" y1="12" x2="92" y2="100" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.42" />
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0" />
+    </linearGradient>
+  </defs>
+
+  <path
+    d="M95 30C87 22 76 18 63 18C38 18 20 37 20 64C20 92 39 110 65 110C84 110 98 103 107 91"
+    stroke="#102538"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-opacity="0.18"
+    stroke-width="34"
+  />
+  <path
+    d="M77 77H103"
+    stroke="#102538"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-opacity="0.18"
+    stroke-width="28"
+  />
+
+  <path
+    d="M95 30C87 22 76 18 63 18C38 18 20 37 20 64C20 92 39 110 65 110C84 110 98 103 107 91"
+    stroke="url(#gabby-gradient)"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="26"
+  />
+  <path
+    d="M77 77H103"
+    stroke="url(#gabby-gradient)"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="20"
+  />
+
+  <path
+    d="M95 30C87 22 76 18 63 18C38 18 20 37 20 64C20 92 39 110 65 110C84 110 98 103 107 91"
+    stroke="url(#gabby-highlight)"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="10"
+  />
+  <path
+    d="M77 77H103"
+    stroke="url(#gabby-highlight)"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="7"
+  />
+</svg>

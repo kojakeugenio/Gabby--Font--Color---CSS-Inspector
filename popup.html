@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Gabby</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <main class="popup">
+      <div class="popup__brand">
+        <img class="popup__logo" src="logo.png" alt="" />
+        <div>
+          <h1 class="popup__title">Gabby</h1>
+          <p class="popup__subtitle">Font, color, and CSS inspection for live pages.</p>
+        </div>
+      </div>
+
+      <div class="popup__actions">
+        <button class="popup__button popup__button--primary" id="popup-open-widget">
+          Open Floating Panel
+        </button>
+        <button class="popup__button" id="popup-start-inspect">
+          Inspect Text
+        </button>
+        <button class="popup__button" id="popup-start-color">
+          Pick Exact Color
+        </button>
+      </div>
+
+      <section class="popup__card">
+        <label class="popup__toggle" for="popup-auto-show">
+          <div class="popup__toggle-copy">
+            <span class="popup__toggle-title">Show floating icon automatically</span>
+            <span class="popup__toggle-text">
+              Keep the Gabby icon visible on supported pages until you turn this off.
+            </span>
+          </div>
+          <input type="checkbox" id="popup-auto-show" />
+        </label>
+      </section>
+
+      <p class="popup__status" id="popup-status">Ready.</p>
+    </main>
+
+    <script src="lib/messaging.js"></script>
+    <script src="lib/storage.js"></script>
+    <script src="popup.js"></script>
+  </body>
+</html>

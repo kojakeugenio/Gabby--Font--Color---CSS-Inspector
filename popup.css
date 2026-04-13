@@ -1,0 +1,144 @@
+:root {
+  color-scheme: light;
+  --popup-bg: #eef3f8;
+  --popup-panel: rgba(255, 255, 255, 0.95);
+  --popup-panel-strong: #ffffff;
+  --popup-border: rgba(42, 67, 94, 0.14);
+  --popup-text: #152233;
+  --popup-text-soft: #53657a;
+  --popup-accent: #264f73;
+  --popup-accent-hover: #1c405d;
+  --popup-shadow: 0 14px 32px rgba(20, 32, 48, 0.12);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  background:
+    radial-gradient(circle at top right, rgba(38, 79, 115, 0.12), transparent 42%),
+    linear-gradient(180deg, #f5f8fb, var(--popup-bg));
+  color: var(--popup-text);
+  font: 13px/1.45 "Avenir Next", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+}
+
+.popup {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 16px;
+}
+
+.popup__brand,
+.popup__card,
+.popup__button {
+  border: 1px solid var(--popup-border);
+  box-shadow: var(--popup-shadow);
+}
+
+.popup__brand,
+.popup__card {
+  border-radius: 18px;
+  background: var(--popup-panel);
+}
+
+.popup__brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px;
+}
+
+.popup__logo {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  object-fit: contain;
+}
+
+.popup__title {
+  margin: 0;
+  font-size: 17px;
+  line-height: 1.1;
+}
+
+.popup__subtitle {
+  margin: 4px 0 0;
+  color: var(--popup-text-soft);
+}
+
+.popup__actions {
+  display: grid;
+  gap: 8px;
+}
+
+.popup__button {
+  appearance: none;
+  width: 100%;
+  min-height: 42px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  background: var(--popup-panel-strong);
+  color: var(--popup-text);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 140ms ease, background 140ms ease, border-color 140ms ease;
+}
+
+.popup__button:hover:not(:disabled) {
+  transform: translateY(-1px);
+  border-color: rgba(38, 79, 115, 0.28);
+}
+
+.popup__button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.popup__button--primary {
+  background: linear-gradient(135deg, var(--popup-accent), #17344f);
+  color: #ffffff;
+}
+
+.popup__button--primary:hover:not(:disabled) {
+  background: linear-gradient(135deg, var(--popup-accent-hover), #10283d);
+}
+
+.popup__card {
+  padding: 14px;
+}
+
+.popup__toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  cursor: pointer;
+}
+
+.popup__toggle-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.popup__toggle-title {
+  font-weight: 700;
+}
+
+.popup__toggle-text,
+.popup__status {
+  color: var(--popup-text-soft);
+}
+
+.popup__status {
+  min-height: 18px;
+  margin: 0;
+  font-size: 12px;
+}
