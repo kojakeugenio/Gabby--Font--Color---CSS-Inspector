@@ -1,7 +1,5 @@
 (async () => {
   const openWidgetBtn = document.getElementById('popup-open-widget');
-  const startInspectBtn = document.getElementById('popup-start-inspect');
-  const startColorBtn = document.getElementById('popup-start-color');
   const autoShowInput = document.getElementById('popup-auto-show');
   const statusEl = document.getElementById('popup-status');
 
@@ -22,7 +20,7 @@
   }
 
   function setBusy(isBusy) {
-    [openWidgetBtn, startInspectBtn, startColorBtn, autoShowInput].forEach((element) => {
+    [openWidgetBtn, autoShowInput].forEach((element) => {
       element.disabled = isBusy;
     });
   }
@@ -70,14 +68,6 @@
 
   openWidgetBtn.addEventListener('click', () => {
     void runPopupAction(MSG.SHOW_WIDGET, 'Floating panel opened on this page.');
-  });
-
-  startInspectBtn.addEventListener('click', () => {
-    void runPopupAction(MSG.START_INSPECT, 'Inspect mode started on this page.');
-  });
-
-  startColorBtn.addEventListener('click', () => {
-    void runPopupAction(MSG.START_COLOR_PICK, 'Color picker started on this page.');
   });
 
   autoShowInput.addEventListener('change', async () => {

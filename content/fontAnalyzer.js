@@ -22,6 +22,7 @@ if (typeof window.__fccFontAnalyzer === 'undefined') {
       document.addEventListener('mousemove', handleMouseMove, true);
       document.addEventListener('click', handleClick, true);
       document.addEventListener('keydown', handleKeyDown, true);
+      document.dispatchEvent(new CustomEvent('fcc-inspect-state-change', { detail: { active: true } }));
     }
 
     function stop() {
@@ -34,6 +35,7 @@ if (typeof window.__fccFontAnalyzer === 'undefined') {
       document.removeEventListener('keydown', handleKeyDown, true);
 
       destroyOverlay();
+      document.dispatchEvent(new CustomEvent('fcc-inspect-state-change', { detail: { active: false } }));
     }
 
     function handleMouseMove(event) {
@@ -104,7 +106,7 @@ if (typeof window.__fccFontAnalyzer === 'undefined') {
       overlayBox.style.opacity = '1';
 
       overlayLabel.textContent = core.buildBreadcrumb(element) || core.describeElement(element);
-      overlayLabel.style.top = `${Math.max(rect.top - 30, 8)}px`;
+      overlayLabel.style.top = `${Math.max(rect.top - 34, 8)}px`;
       overlayLabel.style.left = `${Math.max(rect.left, 8)}px`;
       overlayLabel.style.opacity = '1';
     }
@@ -119,11 +121,13 @@ if (typeof window.__fccFontAnalyzer === 'undefined') {
         position: 'fixed',
         zIndex: '2147483645',
         pointerEvents: 'none',
-        border: '2px solid rgba(24, 33, 43, 0.88)',
-        background: 'rgba(54, 83, 111, 0.08)',
+        border: '2px solid #6366f1',
+        background: 'rgba(99, 102, 241, 0.12)',
         borderRadius: '8px',
         boxSizing: 'border-box',
-        transition: 'all 80ms ease-out',
+        boxShadow: '0 8px 32px rgba(99, 102, 241, 0.2), inset 0 0 0 1px rgba(255, 255, 255, 0.3)',
+        transition: 'all 140ms cubic-bezier(0.22, 1, 0.36, 1)',
+        backdropFilter: 'contrast(1.05) saturate(1.2)',
         opacity: '0',
       });
 
@@ -131,16 +135,19 @@ if (typeof window.__fccFontAnalyzer === 'undefined') {
         position: 'fixed',
         zIndex: '2147483646',
         pointerEvents: 'none',
-        padding: '4px 8px',
-        borderRadius: '999px',
-        background: 'rgba(17, 24, 39, 0.92)',
+        padding: '5px 10px',
+        borderRadius: '8px',
+        background: 'linear-gradient(135deg, #4f46e5, #6366f1)',
         color: '#ffffff',
-        font: '600 11px/1.3 system-ui, -apple-system, sans-serif',
+        font: '700 11.5px/1.2 system-ui, -apple-system, sans-serif',
+        letterSpacing: '0.04em',
         maxWidth: 'min(420px, calc(100vw - 16px))',
         overflow: 'hidden',
         textOverflow: 'ellipsis',
         whiteSpace: 'nowrap',
-        boxShadow: '0 12px 28px rgba(15, 23, 42, 0.2)',
+        boxShadow: '0 6px 16px rgba(79, 70, 229, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.25)',
+        border: '1px solid rgba(255, 255, 255, 0.1)',
+        transition: 'all 140ms cubic-bezier(0.22, 1, 0.36, 1)',
         opacity: '0',
       });
 

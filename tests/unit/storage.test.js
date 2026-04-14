@@ -61,12 +61,39 @@ test('saveSiteSession stores rules under a site key', async () => {
   const storage = loadStorageModule();
 
   await storage.saveSiteSession('https://example.com', {
-    rules: [{ id: 'rule-1', selector: 'body', declarations: { color: '#111111' } }],
+    rules: [
+      { id: 'rule-1', selector: 'body', declarations: { color: '#111111' } },
+      {
+        id: 'rule-2',
+        selector: '#hero-title',
+        declarations: {},
+        debugAction: 'text-edit',
+        originalHTML: 'Before',
+        contentHTML: 'After',
+        contentText: 'After',
+      },
+    ],
   });
 
   const session = await storage.getSiteSession('https://example.com');
-  assert.equal(session.rules.length, 1);
+  assert.equal(session.rules.length, 2);
   assert.equal(session.rules[0].selector, 'body');
+  assert.equal(session.rules[1].debugAction, 'text-edit');
+  assert.equal(session.rules[1].contentHTML, 'After');
+  delete global.chrome;
+});
+
+test('clearSiteSession removes a saved site session', async () => {
+  global.chrome = createChromeMock();
+  const storage = loadStorageModule();
+
+  await storage.saveSiteSession('https://example.com', {
+    rules: [{ id: 'rule-1', selector: '.banner', declarations: { display: 'none' } }],
+  });
+  await storage.clearSiteSession('https://example.com');
+
+  const session = await storage.getSiteSession('https://example.com');
+  assert.equal(session, null);
   delete global.chrome;
 });
 

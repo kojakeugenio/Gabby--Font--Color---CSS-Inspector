@@ -167,7 +167,13 @@ chrome.storage.onChanged.addListener((changes, areaName) => {
     return;
   }
 
-  void syncAutoShowAcrossTabs();
+  const prefsChange = changes[STORAGE_KEYS.UI_PREFS];
+  const oldPrefs = prefsChange.oldValue || {};
+  const newPrefs = prefsChange.newValue || {};
+
+  if (oldPrefs.showFloatingIcon !== newPrefs.showFloatingIcon) {
+    void syncAutoShowAcrossTabs();
+  }
 });
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {

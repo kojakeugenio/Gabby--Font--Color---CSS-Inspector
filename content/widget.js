@@ -31,51 +31,45 @@ if (!document.getElementById('fcc-extension-host')) {
     widget.innerHTML = `
       <button class="fcc-pill" id="fcc-pill" title="Gabby: Font, Color & CSS Inspector">
         <img class="fcc-pill-logo" src="${logoUrl}" alt="" />
+        <span class="fcc-pill-text">Gabby</span>
+        <div class="fcc-pill-hide" id="fcc-pill-hide-btn" title="Hide Gabby on this page" style="display: none;">×</div>
       </button>
 
       <div class="fcc-drawer" id="fcc-drawer">
         <div class="fcc-header">
           <div class="fcc-brand">
             <img class="fcc-brand-logo" src="${logoUrl}" alt="" />
-            <div class="fcc-title">Gabby</div>
+            <div class="fcc-brand-text">
+              <div class="fcc-title">Gabby</div>
+              <div class="fcc-tagline">Font, Color & CSS Inspector</div>
+            </div>
           </div>
           <div class="fcc-header-actions">
-            <button class="fcc-icon-btn fcc-theme-btn" id="fcc-theme-toggle" title="Theme: Auto">Auto</button>
-            <button class="fcc-icon-btn" id="fcc-pin" title="Pin">Pin</button>
-            <button class="fcc-icon-btn" id="fcc-minimize" title="Minimize">Hide</button>
+            <button class="fcc-icon-btn fcc-theme-btn" id="fcc-theme-toggle" title="Theme: Auto">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+            </button>
+            <button class="fcc-icon-btn" id="fcc-pin" title="Pin">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 17v5M9 10.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24V16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.76V7a1 1 0 0 1 1-1 2 2 0 0 0 0-4H8a2 2 0 0 0 0 4 1 1 0 0 1 1 1z"/></svg>
+            </button>
+            <button class="fcc-icon-btn" id="fcc-minimize" title="Minimize">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/></svg>
+            </button>
           </div>
         </div>
 
-        <div class="fcc-onboarding" id="fcc-onboarding">
-          <div class="fcc-onboarding-main">
-            <div class="fcc-onboarding-title">Quick start</div>
-            <div class="fcc-onboarding-copy">
-              Start by freezing one heading or paragraph. After that, Change will target only that element by default.
-            </div>
-            <div class="fcc-step-row">
-              <span class="fcc-step-chip">1 Inspect</span>
-              <span class="fcc-step-chip">2 Preview</span>
-              <span class="fcc-step-chip">3 Apply</span>
-            </div>
-            <div class="fcc-stack-row">
-              <button class="fcc-btn fcc-btn-primary" id="fcc-quick-inspect">Inspect text</button>
-              <button class="fcc-btn fcc-btn-secondary" id="fcc-quick-palette">Scan page colors</button>
-            </div>
-          </div>
-          <button class="fcc-btn fcc-btn-ghost fcc-btn-sm" id="fcc-dismiss-onboarding">Hide tips</button>
-        </div>
 
-        <div class="fcc-status" id="fcc-status-card">
+
+        <div class="fcc-popover" id="fcc-status-card" hidden>
           <div class="fcc-status-copy">
-            <div class="fcc-status-label" id="fcc-status-label">Start here</div>
+            <div class="fcc-status-label" id="fcc-status-label">Getting Started</div>
             <div class="fcc-status-text" id="fcc-status-text">
-              Inspect one text element. After that, Change will target it automatically.
+              Click 'Inspect Text' to select an element. We will analyze the element so you can safely modify its styles.
             </div>
           </div>
-          <button class="fcc-btn fcc-btn-secondary fcc-btn-sm" id="fcc-status-action">Inspect text</button>
+          <button class="fcc-btn fcc-btn-secondary fcc-btn-sm" id="fcc-status-action">Inspect Text</button>
         </div>
 
-        <div class="fcc-tabs" id="fcc-tabs">
+        <div class="fcc-tabs" id="fcc-tabs" style="margin-top: 12px;">
           <button class="fcc-tab active" data-tab="0">Inspect</button>
           <button class="fcc-tab" data-tab="1">Colors</button>
           <button class="fcc-tab" data-tab="2">Change</button>
@@ -86,14 +80,17 @@ if (!document.getElementById('fcc-extension-host')) {
           <div class="fcc-panel active" data-panel="0">
             <div class="fcc-panel-content">
               <div class="fcc-stack-row">
-                <button class="fcc-btn fcc-btn-primary" id="fcc-start-inspect">Inspect Text</button>
+                <button class="fcc-btn fcc-btn-primary" id="fcc-start-inspect">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/></svg>
+                  Inspect Text
+                </button>
                 <button class="fcc-btn fcc-btn-secondary" id="fcc-use-inspection" disabled>Edit This Element</button>
               </div>
 
-              <div class="fcc-note">Hover text, click once to freeze it, then move to Change. Press Esc to cancel.</div>
+              <div class="fcc-note">Hover over any text and click to selectively freeze it to inspect its CSS and test changes safely.</div>
 
               <div class="fcc-empty" id="fcc-inspect-empty">
-                Start with one text element. You will see its selector, typography, colors, and contrast score here.
+                Click 'Inspect Text' to select an element. You'll see its precise selector, typography details, colors, and accessibility contrast score.
               </div>
 
               <div class="fcc-card" id="fcc-inspect-card" hidden>
@@ -104,6 +101,14 @@ if (!document.getElementById('fcc-extension-host')) {
                   </div>
                   <button class="fcc-btn fcc-btn-ghost fcc-btn-sm" id="fcc-copy-selector">Copy</button>
                 </div>
+                <div class="fcc-inspect-grid">
+                  <button class="fcc-btn fcc-btn-secondary fcc-btn-sm" id="fcc-edit-text" disabled>Edit Text</button>
+                  <button class="fcc-btn fcc-btn-ghost fcc-btn-sm" id="fcc-toggle-remove-element" disabled>Hide Element</button>
+                  <button class="fcc-btn fcc-btn-secondary fcc-btn-sm" id="fcc-copy-inspect-css">Copy CSS</button>
+                  <button class="fcc-btn fcc-btn-ghost fcc-btn-sm" id="fcc-copy-inspect-summary">Copy Details</button>
+                </div>
+
+                <button class="fcc-btn fcc-btn-danger fcc-btn-sm" id="fcc-inspect-reset-all" style="width: 100%; margin-top: 4px;">Reset All Site Changes</button>
 
                 <div class="fcc-breadcrumb" id="fcc-inspect-breadcrumb">—</div>
                 <div class="fcc-preview-text" id="fcc-inspect-text">—</div>
@@ -140,15 +145,6 @@ if (!document.getElementById('fcc-extension-host')) {
                   <div class="fcc-badge" id="fcc-ratio-badge">Ratio —</div>
                 </div>
 
-                <div class="fcc-stack-row">
-                  <button class="fcc-btn fcc-btn-secondary fcc-btn-sm" id="fcc-edit-text" disabled>Edit text</button>
-                  <button class="fcc-btn fcc-btn-ghost fcc-btn-sm" id="fcc-toggle-remove-element" disabled>Remove element</button>
-                </div>
-
-                <div class="fcc-stack-row">
-                  <button class="fcc-btn fcc-btn-secondary fcc-btn-sm" id="fcc-copy-inspect-css">Copy CSS</button>
-                  <button class="fcc-btn fcc-btn-ghost fcc-btn-sm" id="fcc-copy-inspect-summary">Copy Summary</button>
-                </div>
               </div>
 
               <div class="fcc-subhead">Recent inspections</div>
@@ -159,34 +155,58 @@ if (!document.getElementById('fcc-extension-host')) {
           <div class="fcc-panel" data-panel="1">
             <div class="fcc-panel-content">
               <div class="fcc-stack-row">
-                <button class="fcc-btn fcc-btn-primary" id="fcc-pick-color">Pick Exact Color</button>
-                <button class="fcc-btn fcc-btn-secondary" id="fcc-scan-palette">Scan Page Colors</button>
-                <button class="fcc-btn fcc-btn-ghost" id="fcc-save-palette" disabled>Save Palette</button>
+                <button class="fcc-btn fcc-btn-primary" id="fcc-pick-color">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><path d="m2 22 1-1h3l9-9M3 21v-3l9-9"/><path d="m15 6 3.4-3.4a2.1 2.1 0 1 1 3 3L18 9l.4.4a2.1 2.1 0 1 1-3 3l-3.8-3.8a2.1 2.1 0 1 1 3-3L15 6Z"/></svg>
+                  Color Picker
+                </button>
+                <button class="fcc-btn fcc-btn-secondary" id="fcc-scan-palette">Page Scanner</button>
+                <button class="fcc-btn fcc-btn-ghost" id="fcc-save-palette" disabled hidden>Save Palette</button>
               </div>
 
-              <div class="fcc-note">Pick one exact pixel color, or scan recurring text, background, and border colors across the page.</div>
+              <div class="fcc-note">Pick an exact pixel from the screen, or scan the whole page to build a palette of recurring colors.</div>
 
               <div class="fcc-empty" id="fcc-picked-empty">
-                Pick a pixel to sample one exact on-screen color.
+                Click 'Color Picker' to sample any exact color from the page.
               </div>
 
               <div class="fcc-card" id="fcc-picked-card" hidden>
-                <div class="fcc-card-head">
+                <div class="fcc-card-head" style="align-items: center;">
                   <div>
                     <div class="fcc-kicker">Latest Sample</div>
-                    <div class="fcc-code" id="fcc-picked-hex">—</div>
+                    <div style="display: flex; align-items: center; gap: 6px; margin-top: 2px;">
+                      <div class="fcc-code" id="fcc-picked-hex">—</div>
+                      <button class="fcc-icon-btn" id="fcc-copy-picked" title="Copy color" style="width: 20px; height: 20px; border-radius: 4px;">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                      </button>
+                    </div>
                   </div>
-                  <span class="fcc-swatch fcc-swatch-lg" id="fcc-picked-swatch"></span>
+                  <label class="fcc-custom-wheel-wrapper" title="Fine-tune with Color Wheel">
+                    <input type="color" class="fcc-hidden-color-input" id="fcc-custom-color-wheel">
+                    <span class="fcc-swatch fcc-swatch-lg" id="fcc-picked-swatch">
+                      <svg style="width:16px;height:16px;fill:none;stroke:var(--fcc-inverse, white);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);opacity:0.9;mix-blend-mode:difference;" viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path>
+                        <path d="M2 12h20"></path>
+                      </svg>
+                    </span>
+                  </label>
                 </div>
                 <div class="fcc-data-grid">
                   <div class="fcc-data-row"><span>RGB</span><strong id="fcc-picked-rgb">—</strong></div>
                   <div class="fcc-data-row"><span>HSL</span><strong id="fcc-picked-hsl">—</strong></div>
                   <div class="fcc-data-row"><span>Contrast vs inspected background</span><strong id="fcc-picked-contrast">—</strong></div>
                 </div>
+                <div style="margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--fcc-outline-soft);">
+                  <div style="font-size: 10.5px; font-weight: 700; color: var(--fcc-text-soft); margin-bottom: 6px; letter-spacing: 0.5px; display: flex; justify-content: space-between;">
+                    <span>TINTS & SHADES</span>
+                    <span style="opacity: 0.6;">Click to select</span>
+                  </div>
+                  <div class="fcc-shade-strip" id="fcc-picked-shades" style="display: flex; gap: 4px; height: 32px;"></div>
+                </div>
               </div>
 
               <div class="fcc-empty" id="fcc-palette-empty">
-                Scan the page to build a reusable palette from text, background, and border colors.
+                Click 'Page Scanner' to automatically build a palette from the text, backgrounds, and borders used on this site.
               </div>
 
               <div class="fcc-card" id="fcc-palette-card" hidden>
@@ -209,6 +229,11 @@ if (!document.getElementById('fcc-extension-host')) {
                   <div class="fcc-subhead">Border</div>
                   <div class="fcc-swatch-grid" id="fcc-palette-border"></div>
                 </div>
+
+                <button class="fcc-btn fcc-btn-secondary" id="fcc-export-palette-json" style="width:100%; margin-top: 4px; gap: 6px; justify-content: center;">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                  Copy Palette as JSON
+                </button>
               </div>
 
               <div class="fcc-subhead">Saved palettes</div>
@@ -218,22 +243,22 @@ if (!document.getElementById('fcc-extension-host')) {
 
           <div class="fcc-panel" data-panel="2">
             <div class="fcc-panel-content">
-              <div class="fcc-note">Change only the controls you want. Preview updates live, and nothing is committed until you click Apply Change.</div>
+              <div class="fcc-note">Adjust the controls below to preview your changes live. Click 'Apply Change' to save them for this website.</div>
 
               <div class="fcc-card fcc-card-compact" id="fcc-target-card">
                 <div class="fcc-card-head">
                   <div>
                     <div class="fcc-kicker" id="fcc-target-label">Recommended target</div>
-                    <div class="fcc-code" id="fcc-target-text">Inspect an element first to edit only that element.</div>
+                    <div class="fcc-code" id="fcc-target-text">Click 'Inspect Text' to select a specific element to edit safely.</div>
                   </div>
-                  <button class="fcc-btn fcc-btn-secondary fcc-btn-sm" id="fcc-target-inspect">Inspect text</button>
+                  <button class="fcc-btn fcc-btn-secondary fcc-btn-sm" id="fcc-target-inspect">Inspect Text</button>
                 </div>
               </div>
 
               <div class="fcc-card fcc-card-compact" id="fcc-preview-card">
                 <div class="fcc-kicker" id="fcc-preview-label">Live preview</div>
                 <div class="fcc-status-text" id="fcc-preview-text">
-                  Change one or more controls below to preview styles before applying them.
+                  Modify the settings below to preview changes live.
                 </div>
               </div>
 
@@ -243,13 +268,13 @@ if (!document.getElementById('fcc-extension-host')) {
                   <button class="fcc-segment" data-basic-scope="element">This element</button>
                   <button class="fcc-segment active" data-basic-scope="page">Whole page</button>
                 </div>
-                <div class="fcc-note" id="fcc-target-help">Inspect one element for the safest first edit, or switch to Whole page.</div>
-                <button class="fcc-text-btn" id="fcc-toggle-advanced">Show advanced targets and saved styles</button>
+                <div class="fcc-note" id="fcc-target-help">Choose 'This element' to limit changes, or 'Whole page' to broadly apply rules.</div>
+                <button class="fcc-text-btn" id="fcc-toggle-advanced">Advanced Options & Saved Styles</button>
               </div>
 
               <div class="fcc-advanced" id="fcc-advanced-panel" hidden>
                 <div class="fcc-field-group">
-                  <label class="fcc-field-label">Advanced targets</label>
+                  <label class="fcc-field-label">Advanced Targets</label>
                   <div class="fcc-segmented fcc-segmented-two" id="fcc-advanced-scope-selector">
                     <button class="fcc-segment" data-advanced-scope="tag">By tag</button>
                     <button class="fcc-segment" data-advanced-scope="selector">Custom CSS</button>
@@ -279,24 +304,6 @@ if (!document.getElementById('fcc-extension-host')) {
                   <input class="fcc-text-input" id="fcc-selector-input" placeholder=".hero-title, .card p" />
                 </div>
 
-                <div class="fcc-field-group">
-                  <label class="fcc-field-label" for="fcc-preset-name">Save current controls as a preset</label>
-                  <div class="fcc-inline">
-                    <input class="fcc-text-input" id="fcc-preset-name" placeholder="Editorial serif / Dense body copy" />
-                    <button class="fcc-btn fcc-btn-secondary fcc-btn-sm" id="fcc-save-preset">Save</button>
-                  </div>
-                </div>
-
-                <div class="fcc-field-group">
-                  <label class="fcc-field-label" for="fcc-presets-select">Saved presets</label>
-                  <div class="fcc-inline">
-                    <select class="fcc-select" id="fcc-presets-select">
-                      <option value="">Select a preset</option>
-                    </select>
-                    <button class="fcc-btn fcc-btn-secondary fcc-btn-sm" id="fcc-apply-preset">Load</button>
-                    <button class="fcc-btn fcc-btn-ghost fcc-btn-sm" id="fcc-export-preset">Export</button>
-                  </div>
-                </div>
               </div>
 
               <div class="fcc-field-group">
@@ -338,13 +345,37 @@ if (!document.getElementById('fcc-extension-host')) {
                 <input type="color" class="fcc-color-input" id="fcc-background-color" value="#ffffff" />
               </div>
 
-              <div class="fcc-stack-row">
-                <button class="fcc-btn fcc-btn-primary" id="fcc-apply-rule">Apply Change</button>
-                <button class="fcc-btn fcc-btn-secondary" id="fcc-undo-rule">Undo</button>
-                <button class="fcc-btn fcc-btn-secondary" id="fcc-redo-rule">Redo</button>
+              <div class="fcc-field-group">
+                <label class="fcc-field-label" for="fcc-preset-name">Save current controls as a preset</label>
+                <div class="fcc-inline">
+                  <input class="fcc-text-input" id="fcc-preset-name" placeholder="Editorial serif / Dense body copy" />
+                  <button class="fcc-btn fcc-btn-secondary fcc-btn-sm" id="fcc-save-preset">Save</button>
+                </div>
               </div>
 
-              <div class="fcc-override-indicator" id="fcc-override-indicator" hidden>Session rules active on this site</div>
+              <div class="fcc-field-group">
+                <label class="fcc-field-label" for="fcc-presets-select">Saved presets</label>
+                <div class="fcc-inline">
+                  <select class="fcc-select" id="fcc-presets-select">
+                    <option value="">Select a preset</option>
+                  </select>
+                  <button class="fcc-btn fcc-btn-secondary fcc-btn-sm" id="fcc-apply-preset">Load</button>
+                  <button class="fcc-btn fcc-btn-ghost fcc-btn-sm" id="fcc-export-preset">Export</button>
+                </div>
+              </div>
+
+              <div class="fcc-stack-row">
+                <button class="fcc-btn fcc-btn-primary" id="fcc-apply-rule" style="flex: 1;">Apply Change</button>
+                <button class="fcc-btn fcc-btn-secondary" id="fcc-reset-preview" title="Reset all sliders to default" style="display: none; padding: 0 12px;">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+                </button>
+                <button class="fcc-btn fcc-btn-secondary" id="fcc-undo-rule" title="Undo applied style" style="padding: 0 12px;">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5v0a5.5 5.5 0 0 1-5.5 5.5H11"/></svg>
+                </button>
+                <button class="fcc-btn fcc-btn-secondary" id="fcc-redo-rule" title="Redo" style="padding: 0 12px;">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 14 5-5-5-5"/><path d="M20 9H9.5A5.5 5.5 0 0 0 4 14.5v0A5.5 5.5 0 0 0 9.5 20H13"/></svg>
+                </button>
+              </div>
 
               <div class="fcc-advanced" id="fcc-rule-tools" hidden>
                 <div class="fcc-stack-row">
@@ -359,10 +390,21 @@ if (!document.getElementById('fcc-extension-host')) {
             </div>
           </div>
         </div>
+
+        <div class="fcc-override-indicator" id="fcc-override-indicator">
+          <div class="fcc-status-dot"></div>
+          <span id="fcc-override-label">Gabby engine active</span>
+          <button id="fcc-toggle-rules-btn">PAUSE</button>
+        </div>
       </div>
 
-      <div class="fcc-toast" id="fcc-toast">Copied</div>
     `;
+
+    const toast = document.createElement('div');
+    toast.className = 'fcc-toast';
+    toast.id = 'fcc-toast';
+    toast.textContent = 'Copied';
+    shadow.appendChild(toast);
 
     shadow.appendChild(widget);
     document.documentElement.appendChild(host);
@@ -370,10 +412,12 @@ if (!document.getElementById('fcc-extension-host')) {
     let isPinned = false;
     let isExpanded = false;
     let isDragging = false;
+    let isActionActive = false;
     let isAdvancedOpen = false;
     let activeTabIndex = 0;
     let selectedScopeKind = 'page';
     let statusActionMode = 'inspect';
+    let returnTabAfterInspect = null;
     let themeMode = 'auto';
     let effectiveTheme = 'light';
     let themeRefreshTimer = null;
@@ -396,19 +440,19 @@ if (!document.getElementById('fcc-extension-host')) {
     };
 
     const pill = shadow.getElementById('fcc-pill');
+    const pillHideBtn = shadow.getElementById('fcc-pill-hide-btn');
     const themeToggleBtn = shadow.getElementById('fcc-theme-toggle');
     const pinBtn = shadow.getElementById('fcc-pin');
     const minimizeBtn = shadow.getElementById('fcc-minimize');
     const tabIndicator = shadow.getElementById('fcc-tab-indicator');
     const tabs = shadow.getElementById('fcc-tabs');
-    const toast = shadow.getElementById('fcc-toast');
-    const onboarding = shadow.getElementById('fcc-onboarding');
     const overrideIndicator = shadow.getElementById('fcc-override-indicator');
+    const overrideLabel = shadow.getElementById('fcc-override-label');
+    const toggleRulesBtn = shadow.getElementById('fcc-toggle-rules-btn');
+    const statusCard = shadow.getElementById('fcc-status-card');
     const statusLabelEl = shadow.getElementById('fcc-status-label');
     const statusTextEl = shadow.getElementById('fcc-status-text');
     const statusActionBtn = shadow.getElementById('fcc-status-action');
-    const quickInspectBtn = shadow.getElementById('fcc-quick-inspect');
-    const quickPaletteBtn = shadow.getElementById('fcc-quick-palette');
 
     const startInspectBtn = shadow.getElementById('fcc-start-inspect');
     const useInspectionBtn = shadow.getElementById('fcc-use-inspection');
@@ -457,6 +501,7 @@ if (!document.getElementById('fcc-extension-host')) {
     const fontColorInput = shadow.getElementById('fcc-font-color');
     const backgroundColorInput = shadow.getElementById('fcc-background-color');
     const applyRuleBtn = shadow.getElementById('fcc-apply-rule');
+    const resetPreviewBtn = shadow.getElementById('fcc-reset-preview');
     const THEME_MODES = ['auto', 'dark', 'light'];
     const THEME_HINT_ATTRIBUTES = [
       'data-theme',
@@ -685,7 +730,12 @@ if (!document.getElementById('fcc-extension-host')) {
     }
 
     function updateThemeToggle() {
-      themeToggleBtn.textContent = capitalize(themeMode);
+      const icons = {
+        auto: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>',
+        light: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>',
+        dark: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>',
+      };
+      themeToggleBtn.innerHTML = icons[themeMode] || icons.auto;
       themeToggleBtn.dataset.mode = themeMode;
       themeToggleBtn.classList.toggle('active', themeMode !== 'auto');
 
@@ -765,8 +815,14 @@ if (!document.getElementById('fcc-extension-host')) {
     }
 
     async function init() {
-      const savedPosition = await getWidgetPosition();
-      widget.style.top = `${savedPosition !== null ? savedPosition : window.innerHeight / 2 - 40}px`;
+      let savedPosition = await getWidgetPosition();
+      
+      // Clear out corrupted positions saved by the old dragging bug
+      if (savedPosition !== null && (savedPosition < 60 || savedPosition > window.innerHeight)) {
+        savedPosition = null;
+      }
+      
+      widget.style.top = `${savedPosition !== null ? savedPosition : Math.round(window.innerHeight / 2)}px`;
 
       isPinned = await isWidgetPinned();
       pinBtn.classList.toggle('active', isPinned);
@@ -775,7 +831,6 @@ if (!document.getElementById('fcc-extension-host')) {
       switchTab(activeTabIndex);
 
       const uiPrefs = await getUiPrefs();
-      onboarding.hidden = Boolean(uiPrefs.onboardingDismissed);
       themeMode = normalizeThemeMode(uiPrefs.themeMode);
       observePageTheme();
       await setThemeMode(themeMode, { persist: false });
@@ -826,15 +881,8 @@ if (!document.getElementById('fcc-extension-host')) {
       renderPalette(null);
     }
 
-    async function dismissOnboarding() {
-      onboarding.hidden = true;
-      await setUiPrefs({ onboardingDismissed: true });
-    }
-
     function completeOnboarding() {
-      if (!onboarding.hidden) {
-        void dismissOnboarding();
-      }
+      // deprecated
     }
 
     function openChangeTab({ focusElement = false, revealRules = false } = {}) {
@@ -901,7 +949,7 @@ if (!document.getElementById('fcc-extension-host')) {
       if (state.textEdit?.active) {
         statusLabelEl.textContent = 'Editing text';
         statusTextEl.textContent = 'Type directly on the page. Click outside to save, or press Esc to cancel.';
-        statusActionBtn.textContent = 'Finish editing';
+        statusActionBtn.textContent = 'Finish Editing';
         statusActionMode = 'finish-text-edit';
         return;
       }
@@ -930,9 +978,9 @@ if (!document.getElementById('fcc-extension-host')) {
         return;
       }
 
-      statusLabelEl.textContent = 'Start here';
-      statusTextEl.textContent = 'Inspect one text element first. That unlocks a simpler, element-focused editing flow.';
-      statusActionBtn.textContent = 'Inspect text';
+      statusLabelEl.textContent = 'Getting Started';
+      statusTextEl.textContent = `Click 'Inspect Text' to select an element. We will analyze the element so you can safely modify its styles.`;
+      statusActionBtn.textContent = 'Inspect Text';
       statusActionMode = 'inspect';
     }
 
@@ -940,23 +988,23 @@ if (!document.getElementById('fcc-extension-host')) {
       if (selectedScopeKind === 'page') {
         targetLabelEl.textContent = 'Current target';
         targetTextEl.textContent = 'Whole page';
-        targetInspectBtn.textContent = currentInspection ? 'Inspect text instead' : 'Inspect text';
+        targetInspectBtn.textContent = currentInspection ? 'Inspect Text instead' : 'Inspect Text';
       } else if (selectedScopeKind === 'tag') {
         targetLabelEl.textContent = 'Current target';
         targetTextEl.textContent = `Every <${tagSelect.value}> element`;
-        targetInspectBtn.textContent = currentInspection ? 'Inspect text instead' : 'Inspect text';
+        targetInspectBtn.textContent = currentInspection ? 'Inspect Text instead' : 'Inspect Text';
       } else if (selectedScopeKind === 'selector') {
         targetLabelEl.textContent = 'Current target';
         targetTextEl.textContent = selectorInput.value.trim() || 'Enter a custom selector';
-        targetInspectBtn.textContent = currentInspection ? 'Inspect text instead' : 'Inspect text';
+        targetInspectBtn.textContent = currentInspection ? 'Inspect Text instead' : 'Inspect Text';
       } else if (currentInspection) {
         targetLabelEl.textContent = 'Current target';
         targetTextEl.textContent = currentInspection.selector;
         targetInspectBtn.textContent = 'Pick another element';
       } else {
         targetLabelEl.textContent = 'Recommended target';
-        targetTextEl.textContent = 'Inspect an element first to edit only that element.';
-        targetInspectBtn.textContent = 'Inspect text';
+        targetTextEl.textContent = `Click 'Inspect Text' to select a specific element to edit safely.`;
+        targetInspectBtn.textContent = 'Inspect Text';
       }
     }
 
@@ -1015,7 +1063,7 @@ if (!document.getElementById('fcc-extension-host')) {
       editTextBtn.disabled =
         (!currentInspection && !textEditState.active) ||
         (!textEditState.active && removalState.active);
-      editTextBtn.textContent = textEditState.active ? 'Finish editing' : 'Edit text';
+      editTextBtn.textContent = textEditState.active ? 'Finish Editing' : 'Edit Text';
     }
 
     function updateRemoveElementButton() {
@@ -1024,20 +1072,29 @@ if (!document.getElementById('fcc-extension-host')) {
         : { active: false };
 
       toggleRemoveElementBtn.disabled = !currentInspection;
-      toggleRemoveElementBtn.textContent = removalState.active ? 'Undo remove' : 'Remove element';
+      toggleRemoveElementBtn.textContent = removalState.active ? 'Undo Remove' : 'Hide Element';
       toggleRemoveElementBtn.classList.toggle('fcc-btn-secondary', removalState.active);
       toggleRemoveElementBtn.classList.toggle('fcc-btn-ghost', !removalState.active);
     }
 
+    function syncInspectionActionButtons() {
+      const hasInspection = Boolean(currentInspection);
+      useInspectionBtn.disabled = !hasInspection;
+      shadow.getElementById('fcc-copy-inspect-css').disabled = !hasInspection;
+      shadow.getElementById('fcc-copy-inspect-summary').disabled = !hasInspection;
+      updateTextEditButton();
+      updateRemoveElementButton();
+    }
+
     function setScope(kind) {
-      selectedScopeKind = kind;
-
-      if (kind === 'tag' || kind === 'selector') {
-        isAdvancedOpen = true;
+      if (selectedScopeKind !== kind) {
+        if (currentPreviewConfig) {
+           handleAutoApply();
+        }
+        selectedScopeKind = kind;
+        updateScopeVisibility();
+        syncPreview();
       }
-
-      updateScopeVisibility();
-      syncPreview();
     }
 
     function toggleDrawer() {
@@ -1059,21 +1116,62 @@ if (!document.getElementById('fcc-extension-host')) {
       widget.classList.remove('expanded');
     }
 
+    function setWidgetActionHidden(hidden) {
+      widget.classList.toggle('fcc-action-hidden', hidden);
+      if (hidden) {
+        statusCard.setAttribute('hidden', '');
+      }
+    }
+
     pill.addEventListener('click', () => {
       toggleDrawer();
+    });
+
+    pill.addEventListener('mouseenter', () => {
+      pillHideBtn.style.display = 'flex';
+    });
+    pill.addEventListener('mouseleave', () => {
+      pillHideBtn.style.display = 'none';
+    });
+    
+    function hideGabby() {
+      showToast('Gabby hidden. Click the extension icon in your toolbar and select "Open Floating Panel" to bring her back!', 6000);
+      pill.style.opacity = '0';
+      pill.style.pointerEvents = 'none';
+      collapseDrawer();
+      setTimeout(() => {
+        if (pill.style.opacity === '0') {
+          widget.style.display = 'none';
+        }
+      }, 400); 
+    }
+
+    pillHideBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      hideGabby();
     });
 
     pill.addEventListener('mousedown', (event) => {
       event.stopPropagation();
       isDragging = false;
+      
+      let initialTop = parseInt(widget.style.top, 10);
+      if (isNaN(initialTop)) {
+         const rect = widget.getBoundingClientRect();
+         initialTop = rect.top + rect.height / 2;
+      }
+      
       const startY = event.clientY;
-      const initialTop = parseInt(widget.style.top || '0', 10);
 
       const onMove = (moveEvent) => {
         const delta = moveEvent.clientY - startY;
-        if (Math.abs(delta) > 5) {
+        if (!isDragging && Math.abs(delta) > 3) {
           isDragging = true;
-          const nextTop = core.clamp(initialTop + delta, 12, window.innerHeight - 64);
+          pill.style.cursor = 'grabbing';
+        }
+        
+        if (isDragging) {
+          const nextTop = core.clamp(initialTop + delta, 60, window.innerHeight - 60);
           widget.style.top = `${nextTop}px`;
         }
       };
@@ -1081,9 +1179,10 @@ if (!document.getElementById('fcc-extension-host')) {
       const onUp = () => {
         document.removeEventListener('mousemove', onMove);
         document.removeEventListener('mouseup', onUp);
+        pill.style.cursor = '';
 
         if (isDragging) {
-          saveWidgetPosition(parseInt(widget.style.top || '0', 10));
+          saveWidgetPosition(parseInt(widget.style.top, 10));
         }
       };
 
@@ -1101,15 +1200,69 @@ if (!document.getElementById('fcc-extension-host')) {
       await setWidgetPinned(isPinned);
     });
 
+
+
     minimizeBtn.addEventListener('click', collapseDrawer);
 
-    shadow.getElementById('fcc-dismiss-onboarding').addEventListener('click', dismissOnboarding);
-    quickInspectBtn.addEventListener('click', startInspectMode);
-    quickPaletteBtn.addEventListener('click', () => {
-      expandDrawer();
-      switchTab(1);
-      scanPalette();
+    let hideTimeout;
+    
+    widget.addEventListener('mouseleave', () => {
+      if (!isPinned && !isDragging && !isActionActive) {
+        hideTimeout = setTimeout(() => {
+          if (!widget.matches(':hover') && !isPinned && !isActionActive) {
+            collapseDrawer();
+          }
+        }, 350);
+      }
     });
+
+    widget.addEventListener('mouseenter', () => {
+      clearTimeout(hideTimeout);
+      if (!isPinned && !isDragging && !isExpanded && !isActionActive) {
+        expandDrawer();
+      }
+    });
+
+    document.addEventListener('fcc-inspect-state-change', (e) => {
+      const active = e.detail?.active;
+      isActionActive = Boolean(active);
+      setWidgetActionHidden(isActionActive);
+      if (active) {
+        startInspectBtn.classList.add('inspecting');
+        startInspectBtn.textContent = 'Inspecting...';
+        targetInspectBtn.classList.add('inspecting');
+        targetInspectBtn.textContent = 'Inspecting...';
+      } else {
+        startInspectBtn.classList.remove('inspecting');
+        startInspectBtn.textContent = 'Inspect Text';
+        targetInspectBtn.classList.remove('inspecting');
+        targetInspectBtn.textContent = currentInspection ? 'Inspect text instead' : 'Inspect text';
+        syncInspectionActionButtons();
+      }
+    });
+
+    document.addEventListener('fcc-color-pick-state-change', (e) => {
+      const active = e.detail?.active;
+      isActionActive = Boolean(active);
+      setWidgetActionHidden(isActionActive);
+      if (active) {
+        pickColorBtn.classList.add('inspecting');
+        pickColorBtn.textContent = 'Picking...';
+      } else {
+        pickColorBtn.classList.remove('inspecting');
+        pickColorBtn.textContent = 'Color Picker';
+      }
+    });
+
+
+    document.addEventListener('click', (e) => {
+      if (!statusCard || statusCard.hasAttribute('hidden')) return;
+      const path = e.composedPath();
+      if (!path.includes(statusCard)) {
+        statusCard.setAttribute('hidden', '');
+      }
+    });
+    // Deprecated quick start buttons removed
     statusActionBtn.addEventListener('click', handleStatusAction);
     targetInspectBtn.addEventListener('click', startInspectMode);
 
@@ -1154,6 +1307,7 @@ if (!document.getElementById('fcc-extension-host')) {
 
       const result = window.__fccFontChanger.startTextEdit({
         selector: currentInspection.selector,
+        sourceInspectionId: currentInspection.id,
       });
 
       if (!result.success) {
@@ -1195,12 +1349,24 @@ if (!document.getElementById('fcc-extension-host')) {
         window.__fccFontChanger.finishTextEdit();
       }
 
+      // Remember which tab the user was on so we can return after freezing
+      returnTabAfterInspect = activeTabIndex !== 0 ? activeTabIndex : null;
+
       expandDrawer();
-      switchTab(0);
+      // Only switch to inspect tab if the user is already on it
+      if (returnTabAfterInspect === null) {
+        switchTab(0);
+      }
       window.__fccFontChanger.saveSelection();
       window.__fccFontAnalyzer.start(async (inspection) => {
         await setInspection(inspection, true);
         showToast('Element frozen');
+
+        // Return to the originating tab (or stay on Inspect if started from there)
+        if (returnTabAfterInspect !== null) {
+          switchTab(returnTabAfterInspect);
+          returnTabAfterInspect = null;
+        }
       });
       showToast('Inspect mode active');
     }
@@ -1208,8 +1374,8 @@ if (!document.getElementById('fcc-extension-host')) {
     async function setInspection(inspection, persist = true) {
       const hadInspection = Boolean(currentInspection);
       currentInspection = inspection;
-      useInspectionBtn.disabled = !inspection;
       useInspectionBtn.textContent = inspection ? 'Edit This Element' : 'Edit This Element';
+      syncInspectionActionButtons();
 
       if (inspection && !hadInspection && selectedScopeKind === 'page') {
         selectedScopeKind = 'element';
@@ -1228,8 +1394,6 @@ if (!document.getElementById('fcc-extension-host')) {
       updateTargetCard();
       updateScopeVisibility();
       updateStatusCard();
-      updateTextEditButton();
-      updateRemoveElementButton();
       updateControlDisplays();
       updatePreviewCard();
       updateActionButtons();
@@ -1338,7 +1502,13 @@ if (!document.getElementById('fcc-extension-host')) {
       copyToClipboard(core.stableStringify(currentInspection));
     });
 
+    shadow.getElementById('fcc-copy-inspect-summary').addEventListener('click', () => {
+      if (!currentInspection) return;
+      copyToClipboard(core.stableStringify(currentInspection));
+    });
+
     window.addEventListener('fcc:text-edit-state', async (event) => {
+
       const detail = event.detail || {};
 
       if (!detail.active && detail.selector && currentInspection && currentInspection.selector === detail.selector) {
@@ -1370,13 +1540,109 @@ if (!document.getElementById('fcc-extension-host')) {
     scanPaletteBtn.addEventListener('click', scanPalette);
     savePaletteBtn.addEventListener('click', saveCurrentPalette);
 
+    const exportPaletteBtn = shadow.getElementById('fcc-export-palette-json');
+    exportPaletteBtn.addEventListener('click', () => {
+      if (!currentPalette) {
+        showToast('Scan a page palette first');
+        return;
+      }
+
+      const formatGroup = (entries) => {
+        if (!entries || !entries.length) return [];
+        return entries.map(e => e.hex);
+      };
+
+      const jsonData = {
+        text: formatGroup(currentPalette.groups.text),
+        background: formatGroup(currentPalette.groups.background),
+        border: formatGroup(currentPalette.groups.border),
+      };
+
+      const jsonStr = JSON.stringify(jsonData, null, 2);
+      const textCount = jsonData.text.length;
+      const bgCount = jsonData.background.length;
+      const borderCount = jsonData.border.length;
+      const total = textCount + bgCount + borderCount;
+
+      // Copy to clipboard
+      try {
+        if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
+          navigator.clipboard.writeText(jsonStr).catch(() => {});
+        } else {
+          const ta = document.createElement('textarea');
+          ta.value = jsonStr;
+          ta.style.cssText = 'position:fixed;opacity:0';
+          document.body.appendChild(ta);
+          ta.select();
+          document.execCommand('copy');
+          document.body.removeChild(ta);
+        }
+      } catch(e) {}
+
+      showToast(`Palette JSON copied — ${total} colors (${textCount} text, ${bgCount} bg, ${borderCount} border)`, 3000);
+    });
+
+    const customColorWheel = shadow.getElementById('fcc-custom-color-wheel');
+    const copyPickedBtn = shadow.getElementById('fcc-copy-picked');
+    
+    if (copyPickedBtn) {
+      copyPickedBtn.addEventListener('click', () => {
+        if (currentPickedColor) {
+          const hexVal = currentPickedColor.hex.toUpperCase();
+          showToast(`${hexVal} copied`);
+          try {
+            if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
+              navigator.clipboard.writeText(hexVal).catch(() => {});
+            } else {
+              const ta = document.createElement('textarea');
+              ta.value = hexVal;
+              ta.style.cssText = 'position:fixed;opacity:0';
+              document.body.appendChild(ta);
+              ta.select();
+              document.execCommand('copy');
+              document.body.removeChild(ta);
+            }
+          } catch(e) {}
+        }
+      });
+    }
+
+    customColorWheel.addEventListener('input', (e) => {
+      const parsed = window.__fccCore.parseCssColor(e.target.value);
+      if (parsed) {
+        setPickedColor(parsed);
+      }
+    });
+
+    customColorWheel.addEventListener('change', async (e) => {
+      const parsed = window.__fccCore.parseCssColor(e.target.value);
+      if (parsed) {
+        await addColorToHistory(parsed.hex.toUpperCase());
+        showToast('Color picked');
+      }
+    });
+
     function startColorPick() {
       expandDrawer();
       switchTab(1);
       window.__fccColorPicker.start(async (sample) => {
         setPickedColor(sample);
-        await addColorToHistory(sample.hex.toUpperCase());
-        showToast('Color sampled');
+        const hexVal = sample.hex.toUpperCase();
+        showToast(`${hexVal} copied`);
+        try {
+          if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
+            navigator.clipboard.writeText(hexVal).catch(() => {});
+          } else {
+            const ta = document.createElement('textarea');
+            ta.value = hexVal;
+            ta.style.cssText = 'position:fixed;opacity:0';
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand('copy');
+            document.body.removeChild(ta);
+          }
+        } catch(e) {}
+        await addColorToHistory(hexVal);
       });
     }
 
@@ -1384,12 +1650,151 @@ if (!document.getElementById('fcc-extension-host')) {
       currentPickedColor = sample;
       pickedEmpty.hidden = Boolean(sample);
       pickedCard.hidden = !sample;
-      shadow.getElementById('fcc-picked-hex').textContent = sample ? sample.hex.toUpperCase() : '—';
-      shadow.getElementById('fcc-picked-rgb').textContent = sample ? sample.rgb : '—';
-      shadow.getElementById('fcc-picked-hsl').textContent = sample ? sample.hsl : '—';
-      shadow.getElementById('fcc-picked-swatch').style.background = sample ? sample.hex : '#dbe3ef';
+      if (!sample) return;
+
+      shadow.getElementById('fcc-picked-hex').textContent = sample.hex.toUpperCase();
+      shadow.getElementById('fcc-picked-rgb').textContent = sample.rgb;
+      shadow.getElementById('fcc-picked-hsl').textContent = sample.hsl;
+      shadow.getElementById('fcc-picked-swatch').style.background = sample.hex;
+      
+      const customWheel = shadow.getElementById('fcc-custom-color-wheel');
+      if (customWheel && customWheel.value !== sample.hex) {
+        customWheel.value = sample.hex;
+      }
+
+      const shadesContainer = shadow.getElementById('fcc-picked-shades');
+      if (shadesContainer) {
+        shadesContainer.innerHTML = '';
+
+        // Create a single shared popover for all shade swatches
+        let shadeTip = shadow.getElementById('fcc-shade-tip');
+        if (!shadeTip) {
+          shadeTip = document.createElement('div');
+          shadeTip.className = 'fcc-shade-tip';
+          shadeTip.id = 'fcc-shade-tip';
+          shadeTip.innerHTML = `
+            <span class="fcc-shade-tip-hex"></span>
+            <button class="fcc-shade-tip-copy" title="Copy hex">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            </button>
+          `;
+          // Keep popover alive when mouse enters it
+          shadeTip.addEventListener('mouseenter', () => {
+            clearTimeout(shadeTip._hideTimer);
+          });
+          shadeTip.addEventListener('mouseleave', () => {
+            shadeTip._hideTimer = setTimeout(() => {
+              shadeTip.classList.remove('visible');
+            }, 150);
+          });
+          // Copy button inside the popover
+          shadeTip.querySelector('.fcc-shade-tip-copy').addEventListener('click', (e) => {
+            e.stopPropagation();
+            const hexVal = shadeTip._currentHex;
+            if (hexVal) {
+              showToast(`${hexVal} copied`);
+              try {
+                if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
+                  navigator.clipboard.writeText(hexVal).catch(() => {});
+                } else {
+                  const ta = document.createElement('textarea');
+                  ta.value = hexVal;
+                  ta.style.cssText = 'position:fixed;opacity:0';
+                  document.body.appendChild(ta);
+                  ta.select();
+                  document.execCommand('copy');
+                  document.body.removeChild(ta);
+                }
+              } catch(e) {}
+            }
+          });
+          shadesContainer.parentElement.style.position = 'relative';
+          shadesContainer.parentElement.appendChild(shadeTip);
+        }
+
+        generateShades(sample.hex).forEach(hex => {
+          const swatch = document.createElement('div');
+          swatch.className = 'fcc-shade-swatch';
+          swatch.style.background = hex;
+          swatch.setAttribute('data-hex', hex.toUpperCase());
+
+          // Show popover on hover
+          swatch.addEventListener('mouseenter', () => {
+            clearTimeout(shadeTip._hideTimer);
+            const hexUpper = hex.toUpperCase();
+            shadeTip._currentHex = hexUpper;
+            shadeTip.querySelector('.fcc-shade-tip-hex').textContent = hexUpper;
+
+            // Position above the swatch
+            const swatchRect = swatch.getBoundingClientRect();
+            const parentRect = shadesContainer.parentElement.getBoundingClientRect();
+            shadeTip.style.left = (swatchRect.left - parentRect.left + swatchRect.width / 2) + 'px';
+            shadeTip.style.bottom = (parentRect.bottom - swatchRect.top + 6) + 'px';
+            shadeTip.style.transform = 'translateX(-50%)';
+            shadeTip.classList.add('visible');
+          });
+
+          swatch.addEventListener('mouseleave', () => {
+            shadeTip._hideTimer = setTimeout(() => {
+              shadeTip.classList.remove('visible');
+            }, 300);
+          });
+
+          // Click swatch to set as active color
+          swatch.addEventListener('click', () => {
+             const hexUpper = hex.toUpperCase();
+             showToast(`${hexUpper} copied`);
+             const newSample = window.__fccCore.parseCssColor(hex);
+             if (newSample) {
+               setPickedColor(newSample);
+               addColorToHistory(hexUpper).catch(() => {});
+             }
+             try {
+               if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
+                 navigator.clipboard.writeText(hexUpper).catch(() => {});
+               } else {
+                 const ta = document.createElement('textarea');
+                 ta.value = hexUpper;
+                 ta.style.cssText = 'position:fixed;opacity:0';
+                 document.body.appendChild(ta);
+                 ta.select();
+                 document.execCommand('copy');
+                 document.body.removeChild(ta);
+               }
+             } catch(e) {}
+          });
+          shadesContainer.appendChild(swatch);
+        });
+      }
+
       updatePickedContrast();
       updateStatusCard();
+    }
+
+    function generateShades(baseHex) {
+      const color = window.__fccCore.parseCssColor(baseHex);
+      if (!color) return [];
+      const hsl = window.__fccCore.rgbToHslObject(color.r, color.g, color.b);
+      function hslToRgb(h, s, l) {
+        s /= 100; l /= 100;
+        const k = n => (n + h / 30) % 12;
+        const a = s * Math.min(l, 1 - l);
+        const f = n => l - a * Math.max(-1, Math.min(k(n) - 3, Math.min(9 - k(n), 1)));
+        return { r: Math.round(255 * f(0)), g: Math.round(255 * f(8)), b: Math.round(255 * f(4)) };
+      }
+      const result = [];
+      for (let i = 4; i >= 1; i--) {
+        const l = Math.min(100, hsl.l + (100 - hsl.l) * (i * 0.18));
+        const rgb = hslToRgb(hsl.h, hsl.s, l);
+        result.push(window.__fccCore.rgbToHex(rgb.r, rgb.g, rgb.b));
+      }
+      result.push(baseHex);
+      for (let i = 1; i <= 4; i++) {
+        const l = Math.max(0, hsl.l - (hsl.l) * (i * 0.18));
+        const rgb = hslToRgb(hsl.h, hsl.s, l);
+        result.push(window.__fccCore.rgbToHex(rgb.r, rgb.g, rgb.b));
+      }
+      return result;
     }
 
     function updatePickedContrast() {
@@ -1428,21 +1833,26 @@ if (!document.getElementById('fcc-extension-host')) {
 
       savedPalettes = await savePalette(paletteToSave);
       renderSavedPalettes();
-      savePaletteBtn.disabled = false;
+      setSavePaletteButtonActive(true);
       showToast('Palette saved');
+    }
+
+    function setSavePaletteButtonActive(isActive) {
+      savePaletteBtn.disabled = !isActive;
+      savePaletteBtn.hidden = !isActive;
     }
 
     function renderPalette(palette) {
       if (!palette) {
         paletteEmpty.hidden = false;
         paletteCard.hidden = true;
-        savePaletteBtn.disabled = true;
+        setSavePaletteButtonActive(false);
         return;
       }
 
       paletteEmpty.hidden = true;
       paletteCard.hidden = false;
-      savePaletteBtn.disabled = false;
+      setSavePaletteButtonActive(true);
       shadow.getElementById('fcc-palette-name').textContent = palette.name;
 
       renderSwatchGroup(shadow.getElementById('fcc-palette-text'), palette.groups.text);
@@ -1463,13 +1873,55 @@ if (!document.getElementById('fcc-extension-host')) {
             <button class="fcc-swatch-card" data-copy-color="${entry.hex}" style="background:${entry.hex}; color:${textColor}">
               <span>${entry.hex}</span>
               <small>${entry.count} uses</small>
+              <span class="fcc-swatch-copy-icon" data-copy-hex="${entry.hex}" title="Copy ${entry.hex}">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              </span>
             </button>
           `;
         })
         .join('');
 
       container.querySelectorAll('[data-copy-color]').forEach((button) => {
-        button.addEventListener('click', () => copyToClipboard(button.dataset.copyColor));
+        button.addEventListener('click', (e) => {
+          // If the copy icon was clicked, let its own handler fire
+          if (e.target.closest('[data-copy-hex]')) return;
+          const hex = button.dataset.copyColor;
+          showToast(`${hex} copied`);
+          try {
+            if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
+              navigator.clipboard.writeText(hex).catch(() => {});
+            } else {
+              const ta = document.createElement('textarea');
+              ta.value = hex;
+              ta.style.cssText = 'position:fixed;opacity:0';
+              document.body.appendChild(ta);
+              ta.select();
+              document.execCommand('copy');
+              document.body.removeChild(ta);
+            }
+          } catch(e) {}
+        });
+      });
+
+      container.querySelectorAll('[data-copy-hex]').forEach((icon) => {
+        icon.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const hex = icon.dataset.copyHex;
+          showToast(`${hex} copied`);
+          try {
+            if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
+              navigator.clipboard.writeText(hex).catch(() => {});
+            } else {
+              const ta = document.createElement('textarea');
+              ta.value = hex;
+              ta.style.cssText = 'position:fixed;opacity:0';
+              document.body.appendChild(ta);
+              ta.select();
+              document.execCommand('copy');
+              document.body.removeChild(ta);
+            }
+          } catch(e) {}
+        });
       });
     }
 
@@ -1601,20 +2053,46 @@ if (!document.getElementById('fcc-extension-host')) {
     lineHeightSlider.addEventListener('input', () => markTouched('lineHeight', true));
     letterSpacingSlider.addEventListener('input', () => markTouched('letterSpacing', true));
     fontColorInput.addEventListener('input', () => markTouched('color', true));
+    fontColorInput.addEventListener('change', () => showToast('Color picked'));
     backgroundColorInput.addEventListener('input', () => markTouched('backgroundColor', true));
+    backgroundColorInput.addEventListener('change', () => showToast('Color picked'));
+    function handleAutoApply() {
+      if (currentPreviewConfig && Object.keys(currentPreviewConfig.declarations).length > 0) {
+        window.__fccFontChanger.applyRule(currentPreviewConfig);
+        updateRuleState();
+        showToast(`Auto-applied ${currentPreviewConfig.scope.value || currentPreviewConfig.scope.selector || currentPreviewConfig.scope.kind}`);
+      }
+    }
+
     fontFamilySelect.addEventListener('change', () => {
       updatePreviewCard();
       updateActionButtons();
       syncPreview();
     });
+    
+    // Track previous value for scope elements before they change to allow auto-apply
+    let prevTagValue = tagSelect.value;
+    tagSelect.addEventListener('focus', () => { prevTagValue = tagSelect.value; });
     tagSelect.addEventListener('change', () => {
+      if (currentPreviewConfig && currentPreviewConfig.scope.kind === 'tag' && currentPreviewConfig.scope.value === prevTagValue) {
+        handleAutoApply();
+      }
+      prevTagValue = tagSelect.value;
       updateScopeVisibility();
       syncPreview();
     });
-    selectorInput.addEventListener('input', () => {
+    
+    let prevSelectorValue = selectorInput.value;
+    selectorInput.addEventListener('focus', () => { prevSelectorValue = selectorInput.value; });
+    selectorInput.addEventListener('change', () => {
+      if (currentPreviewConfig && currentPreviewConfig.scope.kind === 'selector' && currentPreviewConfig.scope.value === prevSelectorValue) {
+        handleAutoApply();
+      }
+      prevSelectorValue = selectorInput.value;
       updateScopeVisibility();
       syncPreview();
     });
+    
     presetNameInput.addEventListener('input', updateActionButtons);
     presetsSelect.addEventListener('change', updateActionButtons);
 
@@ -1660,6 +2138,8 @@ if (!document.getElementById('fcc-extension-host')) {
       const hasPresetSelection = Boolean(presetsSelect.value);
 
       applyRuleBtn.disabled = !scope || !hasDeclarations;
+      resetPreviewBtn.style.display = hasDeclarations ? 'inline-flex' : 'none';
+      
       savePresetBtn.disabled = !hasDeclarations || !presetNameInput.value.trim();
       applyPresetBtn.disabled = !hasPresetSelection;
       exportPresetBtn.disabled = !hasPresetSelection;
@@ -1686,20 +2166,30 @@ if (!document.getElementById('fcc-extension-host')) {
       }
     }
 
+    let currentPreviewConfig = null;
+
     function syncPreview() {
+      if (window.__fccFontChanger.isPaused()) {
+        window.__fccFontChanger.togglePauseRules();
+        updateRuleState();
+      }
+
       const scope = collectScope();
       const declarations = collectDeclarations();
 
       if (!scope || !Object.keys(declarations).length) {
         window.__fccFontChanger.clearPreview();
+        currentPreviewConfig = null;
         return;
       }
 
-      window.__fccFontChanger.preview({
+      currentPreviewConfig = {
         scope,
         declarations,
         sourceInspectionId: currentInspection ? currentInspection.id : null,
-      });
+      };
+
+      window.__fccFontChanger.preview(currentPreviewConfig);
     }
 
     applyRuleBtn.addEventListener('click', () => {
@@ -1724,7 +2214,35 @@ if (!document.getElementById('fcc-extension-host')) {
 
       completeOnboarding();
       updateRuleState();
+      
+      // Auto reset the preview controls so they can start fresh
+      resetControlsSilently();
+      
       showToast(`${rule.label} updated`);
+    });
+    
+    function resetControlsSilently() {
+      Object.keys(touched).forEach((key) => touched[key] = false);
+
+      fontFamilySelect.value = '';
+      
+      const typography = currentInspection ? currentInspection.typography : null;
+      fontSizeSlider.value = typography ? parseInt(typography.fontSize) : 16;
+      fontWeightSlider.value = typography ? parseInt(typography.fontWeight) : 400;
+      lineHeightSlider.value = typography ? parseFloat(typography.lineHeight) : 1.5;
+      letterSpacingSlider.value = typography ? parseFloat(typography.letterSpacing) : 0;
+      fontColorInput.value = currentInspection ? currentInspection.colors.text.hex : '#111827';
+      backgroundColorInput.value = currentInspection ? currentInspection.colors.background.hex : '#ffffff';
+
+      updateControlDisplays();
+      updatePreviewCard();
+      updateActionButtons();
+      syncPreview();
+    }
+
+    resetPreviewBtn.addEventListener('click', () => {
+      resetControlsSilently();
+      showToast('Settings reset');
     });
 
     shadow.getElementById('fcc-undo-rule').addEventListener('click', () => {
@@ -1741,14 +2259,28 @@ if (!document.getElementById('fcc-extension-host')) {
       }
     });
 
+    shadow.getElementById('fcc-inspect-reset-all').addEventListener('click', () => {
+      if (confirm('Are you sure you want to clear ALL site changes? This cannot be undone.')) {
+        window.__fccFontChanger.reset();
+        updateRuleState();
+        showToast('Site changes cleared');
+      }
+    });
+
     shadow.getElementById('fcc-reset-rules').addEventListener('click', () => {
       window.__fccFontChanger.reset();
       updateRuleState();
-      showToast('Site rules cleared');
+      showToast('Saved site changes cleared');
     });
 
     shadow.getElementById('fcc-export-css').addEventListener('click', () => {
       copyToClipboard(window.__fccFontChanger.exportCSS() || '/* No active CSS rules */');
+    });
+
+    toggleRulesBtn.addEventListener('click', () => {
+      window.__fccFontChanger.togglePauseRules();
+      updateRuleState();
+      showToast(window.__fccFontChanger.isPaused() ? 'Rules paused' : 'Rules resumed');
     });
 
     shadow.getElementById('fcc-export-session').addEventListener('click', () => {
@@ -1839,72 +2371,109 @@ if (!document.getElementById('fcc-extension-host')) {
     }
 
     function updateRuleState() {
-      const state = window.__fccFontChanger.getState();
-      overrideIndicator.hidden = state.rules.length === 0;
-      ruleTools.hidden = advancedPanel.hidden;
+      try {
+        const changer = window.__fccFontChanger;
+        const state = changer.getState();
+        const isPaused = changer.isPaused();
+        
+        let labelText = isPaused ? 'Engine paused' : 'Active';
+        if (isPaused) {
+          labelText = state.rules.length ? 'Site changes paused' : 'Engine paused';
+        } else if (state.rules.length === 0) {
+          labelText = 'Engine active';
+        } else {
+          labelText = 'Site changes active';
+        }
+        
+        overrideLabel.textContent = `STATUS: ${labelText.toUpperCase()}`;
+        
+        // Explicitly set text and class
+        if (isPaused) {
+          toggleRulesBtn.textContent = 'RESUME';
+          toggleRulesBtn.classList.add('paused');
+          overrideIndicator.classList.add('paused');
+        } else {
+          toggleRulesBtn.textContent = 'PAUSE';
+          toggleRulesBtn.classList.remove('paused');
+          overrideIndicator.classList.remove('paused');
+        }
+        
+        toggleRulesBtn.setAttribute('aria-pressed', String(isPaused));
 
-      const activeRulesEl = shadow.getElementById('fcc-active-rules');
-      if (!state.rules.length) {
-        activeRulesEl.innerHTML = `<div class="fcc-list-empty">No active rules yet.</div>`;
-      } else {
-        activeRulesEl.innerHTML = state.rules
-          .map((rule) => {
-            const declarationSummary = Object.entries(rule.declarations || {})
-              .map(([key, value]) => `${core.toKebabCase(key)}: ${value}`)
-              .join(' · ');
-
-            return `
-              <div class="fcc-list-item fcc-list-item-static">
-                <div class="fcc-list-title-row">
+        ruleTools.hidden = advancedPanel.hidden;
+        const activeRulesEl = shadow.getElementById('fcc-active-rules');
+        if (!state.rules.length) {
+          activeRulesEl.innerHTML = `<div class="fcc-list-empty">No saved site changes yet.</div>`;
+        } else {
+          activeRulesEl.innerHTML = state.rules
+            .map((rule) => {
+              return `
+                <div class="fcc-list-item" data-rule-id="${rule.id}">
                   <span class="fcc-list-title">${rule.label}</span>
-                  <button class="fcc-text-btn" data-remove-rule="${rule.id}">Remove</button>
+                  <span class="fcc-list-meta">${rule.selector}</span>
+                  <button class="fcc-list-action" data-remove-rule="${rule.id}">×</button>
                 </div>
-                <span class="fcc-list-meta">${rule.selector}</span>
-                <span class="fcc-list-meta">${declarationSummary}</span>
-              </div>
-            `;
-          })
-          .join('');
-
-        activeRulesEl.querySelectorAll('[data-remove-rule]').forEach((button) => {
-          button.addEventListener('click', () => {
-            window.__fccFontChanger.removeRule(button.dataset.removeRule);
-            updateRuleState();
-            showToast('Rule removed');
+              `;
+            })
+            .join('');
+          
+          activeRulesEl.querySelectorAll('[data-remove-rule]').forEach((btn) => {
+            btn.addEventListener('click', (e) => {
+              e.stopPropagation();
+              changer.removeRule(btn.dataset.removeRule);
+              updateRuleState();
+            });
           });
-        });
+        }
+      } catch (err) {
+        console.error('[Gabby] updateRuleState failed:', err);
+      }
+    }
+
+    function copyToClipboard(text, customMessage) {
+      const msg = customMessage || 'Copied';
+
+      function fallbackCopy() {
+        try {
+          const textarea = document.createElement('textarea');
+          textarea.value = text;
+          textarea.style.position = 'fixed';
+          textarea.style.opacity = '0';
+          document.body.appendChild(textarea);
+          textarea.select();
+          document.execCommand('copy');
+          document.body.removeChild(textarea);
+        } catch (err) {
+          console.error('[Gabby] fallback copy error', err);
+        }
       }
 
-      shadow.getElementById('fcc-undo-rule').disabled = !state.canUndo;
-      shadow.getElementById('fcc-redo-rule').disabled = !state.canRedo;
-      updateRemoveElementButton();
-      updateTextEditButton();
-      updateStatusCard();
+      try {
+        if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
+          navigator.clipboard.writeText(text).then(() => {
+            showToast(msg);
+          }).catch(() => {
+            fallbackCopy();
+            showToast(msg);
+          });
+        } else {
+          fallbackCopy();
+          showToast(msg);
+        }
+      } catch (err) {
+        console.error('[Gabby] copy error', err);
+        fallbackCopy();
+        showToast(msg);
+      }
     }
 
-    function copyToClipboard(text) {
-      navigator.clipboard.writeText(text).then(() => {
-        showToast('Copied');
-      }).catch(() => {
-        const textarea = document.createElement('textarea');
-        textarea.value = text;
-        textarea.style.position = 'fixed';
-        textarea.style.opacity = '0';
-        document.body.appendChild(textarea);
-        textarea.select();
-        document.execCommand('copy');
-        document.body.removeChild(textarea);
-        showToast('Copied');
-      });
-    }
-
-    function showToast(message) {
+    function showToast(message, duration = 1800) {
       toast.textContent = message;
       toast.classList.add('show');
       clearTimeout(showToast._timer);
       showToast._timer = setTimeout(() => {
         toast.classList.remove('show');
-      }, 1800);
+      }, duration);
     }
 
     chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
@@ -1925,6 +2494,8 @@ if (!document.getElementById('fcc-extension-host')) {
 
       if (message.type === MSG.SHOW_WIDGET) {
         widget.style.display = '';
+        pill.style.opacity = '1';
+        pill.style.pointerEvents = 'auto';
         if (message.expand === false) {
           collapseDrawer();
         } else {
@@ -1935,14 +2506,15 @@ if (!document.getElementById('fcc-extension-host')) {
       }
 
       if (message.type === MSG.HIDE_WIDGET) {
-        widget.style.display = 'none';
-        collapseDrawer();
+        hideGabby();
         sendResponse({ success: true });
         return;
       }
 
       if (message.type === MSG.START_INSPECT) {
         widget.style.display = '';
+        pill.style.opacity = '1';
+        pill.style.pointerEvents = 'auto';
         startInspectMode();
         sendResponse({ success: true });
         return;
@@ -1950,6 +2522,8 @@ if (!document.getElementById('fcc-extension-host')) {
 
       if (message.type === MSG.START_COLOR_PICK) {
         widget.style.display = '';
+        pill.style.opacity = '1';
+        pill.style.pointerEvents = 'auto';
         startColorPick();
         sendResponse({ success: true });
       }

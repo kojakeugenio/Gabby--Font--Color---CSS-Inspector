@@ -1,14 +1,14 @@
 :root {
   color-scheme: light;
-  --popup-bg: #eef3f8;
-  --popup-panel: rgba(255, 255, 255, 0.95);
+  --popup-bg: #edf2f7;
+  --popup-panel: rgba(255, 255, 255, 0.7);
   --popup-panel-strong: #ffffff;
-  --popup-border: rgba(42, 67, 94, 0.14);
-  --popup-text: #152233;
-  --popup-text-soft: #53657a;
+  --popup-border: rgba(138, 157, 182, 0.28);
+  --popup-text: #142030;
+  --popup-text-soft: #4d5e72;
   --popup-accent: #264f73;
   --popup-accent-hover: #1c405d;
-  --popup-shadow: 0 14px 32px rgba(20, 32, 48, 0.12);
+  --popup-shadow: 0 14px 32px rgba(15, 23, 42, 0.12);
 }
 
 *,
@@ -20,12 +20,11 @@
 body {
   margin: 0;
   min-width: 320px;
-  background:
-    radial-gradient(circle at top right, rgba(38, 79, 115, 0.12), transparent 42%),
-    linear-gradient(180deg, #f5f8fb, var(--popup-bg));
+  background: var(--popup-bg);
   color: var(--popup-text);
-  font: 13px/1.45 "Avenir Next", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  font: 13px/1.45 -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
 }
+
 
 .popup {
   display: flex;
@@ -45,6 +44,7 @@ body {
 .popup__card {
   border-radius: 18px;
   background: var(--popup-panel);
+  backdrop-filter: blur(20px) saturate(180%);
 }
 
 .popup__brand {
@@ -141,4 +141,58 @@ body {
   min-height: 18px;
   margin: 0;
   font-size: 12px;
+}
+
+.popup__developer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.popup__developer-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.popup__developer-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 800;
+  color: var(--popup-text-soft);
+  opacity: 0.7;
+}
+
+.popup__developer-name {
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.popup__developer-socials {
+  display: flex;
+  gap: 10px;
+}
+
+.popup__social-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: var(--popup-panel-strong);
+  color: var(--popup-text-soft);
+  border: 1px solid var(--popup-border);
+  transition: all 140ms ease;
+  text-decoration: none;
+}
+
+.popup__social-link:hover {
+  background: var(--popup-accent);
+  color: #ffffff;
+  border-color: var(--popup-accent);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(38, 79, 115, 0.2);
 }

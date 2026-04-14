@@ -11,15 +11,17 @@ if (typeof window.__fccFontChanger === 'undefined') {
     const SPAN_CLASS = 'fcc-override-span';
     const FONT_LINK_ID = 'fcc-google-font-link';
     const REMOVE_ELEMENT_DEBUG_ACTION = 'remove-element';
+    const TEXT_EDIT_DEBUG_ACTION = 'text-edit';
 
     let savedRange = null;
     let rules = [];
     let previewRule = null;
     let history = [];
-    let future = [];
     let hasRestoredSession = false;
     let activeTextEdit = null;
+    let rulesPaused = false;
     const googleFontLoadJobs = new Map();
+    const appliedTextEdits = new Map();
 
     const siteKey = core.getSiteKey(location.href);
 
@@ -140,9 +142,11 @@ if (typeof window.__fccFontChanger === 'undefined') {
         element,
         selector,
         originalHTML,
+        persistedOriginalHTML,
         previous,
         onBlur,
         onKeyDown,
+        sourceInspectionId,
       } = activeTextEdit;
 
       element.removeEventListener('blur', onBlur, true);
@@ -153,8 +157,20 @@ if (typeof window.__fccFontChanger === 'undefined') {
       }
 
       const changed = element.innerHTML !== originalHTML;
+      const contentHTML = element.innerHTML;
+      const contentText = element.innerText || element.textContent || '';
       restoreEditableState(element, previous);
       activeTextEdit = null;
+
+      if (save && changed) {
+        upsertTextEditRule({
+          selector,
+          sourceInspectionId,
+          originalHTML: persistedOriginalHTML || originalHTML,
+          contentHTML,
+          contentText,
+        });
+      }
 
       const detail = {
         active: false,
@@ -162,7 +178,7 @@ if (typeof window.__fccFontChanger === 'undefined') {
         canceled: !save,
         saved: save,
         selector,
-        text: element.innerText || element.textContent || '',
+        text: contentText,
       };
 
       emitTextEditState(detail);
@@ -175,7 +191,8 @@ if (typeof window.__fccFontChanger === 'undefined') {
 
     function startTextEdit(config = {}) {
       const selector = config.selector || config.value || config.elementSelector || '';
-      const element = selector ? document.querySelector(selector) : null;
+      const element = getTargetElement(selector);
+      const existingTextEditRule = getTextEditRule(selector);
 
       if (!element) {
         return {
@@ -257,6 +274,8 @@ if (typeof window.__fccFontChanger === 'undefined') {
         element,
         selector,
         originalHTML: element.innerHTML,
+        persistedOriginalHTML: existingTextEditRule?.originalHTML || element.innerHTML,
+        sourceInspectionId: config.sourceInspectionId || existingTextEditRule?.sourceInspectionId || null,
         previous,
         onBlur,
         onKeyDown,
@@ -289,6 +308,16 @@ if (typeof window.__fccFontChanger === 'undefined') {
 
     function cloneRules(value) {
       return JSON.parse(JSON.stringify(value || []));
+    }
+
+    function getTargetElement(selector) {
+      if (!selector) return null;
+
+      try {
+        return document.querySelector(selector);
+      } catch (error) {
+        return null;
+      }
     }
 
     function pushHistory() {
@@ -378,8 +407,144 @@ if (typeof window.__fccFontChanger === 'undefined') {
       };
     }
 
+    function isTextEditRule(rule) {
+      return rule?.debugAction === TEXT_EDIT_DEBUG_ACTION;
+    }
+
+    function getTextEditRules() {
+      return rules.filter((rule) => {
+        return isTextEditRule(rule) && rule.scope?.kind === 'element' && rule.selector;
+      });
+    }
+
+    function getTextEditRule(selector) {
+      if (!selector) return null;
+      return getTextEditRules().find((rule) => rule.selector === selector) || null;
+    }
+
+    function createTextEditRule(config = {}) {
+      const selector =
+        config.selector ||
+        config.value ||
+        config.elementSelector ||
+        (config.scope?.kind === 'element' ? (config.scope.selector || config.scope.value || '') : '');
+
+      const rule = createRule({
+        ...config,
+        scope: {
+          kind: 'element',
+          selector,
+          value: selector,
+        },
+        declarations: {},
+        label: config.label || 'Edited text',
+        debugAction: TEXT_EDIT_DEBUG_ACTION,
+      });
+
+      return {
+        ...rule,
+        contentHTML: config.contentHTML || '',
+        contentText: config.contentText || '',
+        originalHTML: config.originalHTML || '',
+      };
+    }
+
+    function syncTextEditRules() {
+      const nextRules = rulesPaused ? [] : getTextEditRules();
+      const nextBySelector = new Map(nextRules.map((rule) => [rule.selector, rule]));
+
+      appliedTextEdits.forEach((appliedRule, selector) => {
+        const nextRule = nextBySelector.get(selector);
+        if (
+          !nextRule ||
+          nextRule.id !== appliedRule.ruleId ||
+          nextRule.contentHTML !== appliedRule.contentHTML
+        ) {
+          const element = getTargetElement(selector);
+          if (element && typeof appliedRule.originalHTML === 'string') {
+            element.innerHTML = appliedRule.originalHTML;
+          }
+          appliedTextEdits.delete(selector);
+        }
+      });
+
+      nextRules.forEach((rule) => {
+        const element = getTargetElement(rule.selector);
+        if (!element) return;
+
+        const appliedRule = appliedTextEdits.get(rule.selector);
+        const originalHTML = appliedRule?.originalHTML ?? rule.originalHTML ?? element.innerHTML;
+
+        if (element.innerHTML !== rule.contentHTML) {
+          element.innerHTML = rule.contentHTML;
+        }
+
+        appliedTextEdits.set(rule.selector, {
+          ruleId: rule.id,
+          originalHTML,
+          contentHTML: rule.contentHTML,
+        });
+      });
+    }
+
+    function upsertTextEditRule(config = {}) {
+      const selector =
+        config.selector ||
+        config.value ||
+        config.elementSelector ||
+        (config.scope?.kind === 'element' ? (config.scope.selector || config.scope.value || '') : '');
+
+      if (!selector) {
+        return null;
+      }
+
+      const existingRule = getTextEditRule(selector);
+      const originalHTML = existingRule?.originalHTML ?? config.originalHTML ?? '';
+      const contentHTML = config.contentHTML || '';
+
+      if (contentHTML === originalHTML) {
+        if (existingRule) {
+          removeRule(existingRule.id);
+        }
+        return null;
+      }
+
+      const nextRule = createTextEditRule({
+        ...config,
+        id: existingRule?.id || config.id || core.createId('rule'),
+        createdAt: existingRule?.createdAt || config.createdAt,
+        selector,
+        originalHTML,
+        contentHTML,
+        contentText: config.contentText || core.collapseWhitespace(contentHTML),
+        sourceInspectionId: config.sourceInspectionId || existingRule?.sourceInspectionId || null,
+      });
+
+      pushHistory();
+      rules = [
+        nextRule,
+        ...rules.filter((rule) => !(isTextEditRule(rule) && rule.selector === selector)),
+      ];
+
+      renderRules();
+      syncTextEditRules();
+      clearPreview();
+      persistSession();
+
+      return nextRule;
+    }
+
     function renderRules() {
       const styleElement = ensureStyleElement(STYLE_ID);
+      if (rulesPaused) {
+        styleElement.textContent = `
+          .fcc-inline-edit { 
+             all: unset !important; 
+             display: contents !important; 
+          }
+        `;
+        return;
+      }
       styleElement.textContent = rules
         .filter((rule) => rule.scope.kind !== 'selection')
         .map((rule) => core.serializeOverrideRule(rule))
@@ -387,9 +552,21 @@ if (typeof window.__fccFontChanger === 'undefined') {
         .join('\n\n');
     }
 
+    function togglePauseRules(forceState) {
+      rulesPaused = typeof forceState === 'boolean' ? forceState : !rulesPaused;
+      renderRules();
+      renderPreview();
+      syncTextEditRules();
+      return rulesPaused;
+    }
+
+    function isPaused() {
+      return rulesPaused;
+    }
+
     function renderPreview() {
       const previewElement = ensureStyleElement(PREVIEW_STYLE_ID);
-      previewElement.textContent = previewRule ? core.serializeOverrideRule(previewRule) : '';
+      previewElement.textContent = (previewRule && !rulesPaused) ? core.serializeOverrideRule(previewRule) : '';
     }
 
     function ensureStyleElement(id) {
@@ -483,6 +660,7 @@ if (typeof window.__fccFontChanger === 'undefined') {
 
       rules.unshift(nextRule);
       renderRules();
+      syncTextEditRules();
       clearPreview();
       persistSession();
 
@@ -549,7 +727,7 @@ if (typeof window.__fccFontChanger === 'undefined') {
         },
         label: config.label || 'Removed element',
         sourceInspectionId: config.sourceInspectionId || null,
-        persistent: config.persistent === undefined ? false : config.persistent,
+        persistent: config.persistent === undefined ? true : config.persistent,
         debugAction: REMOVE_ELEMENT_DEBUG_ACTION,
         allowSelectionConversion: false,
       });
@@ -621,6 +799,7 @@ if (typeof window.__fccFontChanger === 'undefined') {
       }
 
       renderRules();
+      syncTextEditRules();
       persistSession();
     }
 
@@ -631,6 +810,7 @@ if (typeof window.__fccFontChanger === 'undefined') {
       rules = history.pop();
       rehydrateSelectionRules();
       renderRules();
+      syncTextEditRules();
       persistSession();
       return true;
     }
@@ -642,6 +822,7 @@ if (typeof window.__fccFontChanger === 'undefined') {
       rules = future.pop();
       rehydrateSelectionRules();
       renderRules();
+      syncTextEditRules();
       persistSession();
       return true;
     }
@@ -671,6 +852,7 @@ if (typeof window.__fccFontChanger === 'undefined') {
       rules = [];
       clearPreview();
       renderRules();
+      syncTextEditRules();
       document.querySelectorAll(`[id^="${FONT_LINK_ID}-"]`).forEach((fontLink) => fontLink.remove());
       void clearSiteSession(siteKey);
     }
@@ -721,6 +903,7 @@ if (typeof window.__fccFontChanger === 'undefined') {
           }
         });
         renderRules();
+        syncTextEditRules();
         hasRestoredSession = true;
         return {
           restored: true,
@@ -909,6 +1092,7 @@ if (typeof window.__fccFontChanger === 'undefined') {
       getElementRemovalState,
       getState,
       getTextEditState,
+      isPaused,
       preview,
       redo,
       removeRule,
@@ -918,6 +1102,7 @@ if (typeof window.__fccFontChanger === 'undefined') {
       finishTextEdit,
       startTextEdit,
       toggleElementRemoval,
+      togglePauseRules,
       undo,
     };
   })();

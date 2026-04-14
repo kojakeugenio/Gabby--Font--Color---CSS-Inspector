@@ -22,23 +22,34 @@ if (typeof window.__fccColorPicker === 'undefined') {
     function start(callback) {
       if (isActive) return;
 
+      isActive = true;
       onColorPicked = callback;
+      document.dispatchEvent(new CustomEvent('fcc-color-pick-state-change', { detail: { active: true } }));
 
-      chrome.runtime.sendMessage({ type: MSG.CAPTURE_SCREENSHOT }, (response) => {
-        if (!response || !response.success) {
-          console.error('FCC: Screenshot capture failed');
-          return;
-        }
+      // Wait for the panel's opacity transition (160ms) to complete before capturing
+      setTimeout(() => {
+        if (!isActive) return;
 
-        loadScreenshot(response.dataUrl);
-      });
+        chrome.runtime.sendMessage({ type: MSG.CAPTURE_SCREENSHOT }, (response) => {
+          if (!response || !response.success) {
+            console.error('FCC: Screenshot capture failed');
+            destroy();
+            return;
+          }
+
+          loadScreenshot(response.dataUrl);
+        });
+      }, 200);
     }
 
     function loadScreenshot(dataUrl) {
       screenshotImg = new Image();
       screenshotImg.onload = () => {
         createOverlay();
-        isActive = true;
+      };
+      screenshotImg.onerror = () => {
+        console.error('FCC: Screenshot image load failed');
+        destroy();
       };
       screenshotImg.src = dataUrl;
     }
@@ -275,7 +286,10 @@ if (typeof window.__fccColorPicker === 'undefined') {
       canvas = null;
       ctx = null;
       screenshotImg = null;
-      isActive = false;
+      if (isActive) {
+        isActive = false;
+        document.dispatchEvent(new CustomEvent('fcc-color-pick-state-change', { detail: { active: false } }));
+      }
     }
 
     return {
